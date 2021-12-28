@@ -1,7 +1,7 @@
 filetype plugin indent on
 
 
-"basic settings
+" basic settings
 set nocompatible
 set expandtab
 set tabstop=4
@@ -17,7 +17,7 @@ if !has('gui_running')
 endif
 
 
-"latex/word processors settings
+" latex/word processors settings
 func! WordProcessor()
   map j gj
   map k gk
@@ -50,7 +50,7 @@ endfu
 com! T call RenderLatex()
 
 
-"LISP settings
+" LISP settings
 func! LISP()
         set tabstop=2
         set shiftwidth=2
@@ -59,7 +59,7 @@ endfu
 autocmd Filetype lisp call LISP()
 
 
-"Python settings
+" Python settings
 let python_highlight_all=1
 let g:ale_linters = {'python': ['flake8', 'pylint']}
 func! Python()
@@ -70,7 +70,7 @@ autocmd Filetype python com! P call Python()
 autocmd Filetype python com! F call flake8#Flake8()
 
 
-"Vundle plugins
+" Vundle plugins
 call vundle#begin()
 Plugin 'VundleVim/Vundle.vim'
 Plugin 'itchyny/lightline.vim'
