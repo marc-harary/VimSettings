@@ -1,7 +1,7 @@
+syntax on
 filetype plugin indent on
 
-
-" basic settings
+" Basic settings
 set nocompatible
 set expandtab
 set tabstop=4
@@ -11,13 +11,11 @@ set pyx=3
 set laststatus=2
 set colorcolumn=80
 highlight ColorColumn ctermbg=DarkBlue
-set rtp+=~/.vim/bundle/Vundle.vim
 if !has('gui_running')
   set t_Co=256
 endif
 
-
-" latex/word processors settings
+" Latex/word processors settings
 func! WordProcessor()
   map j gj
   map k gk
@@ -49,16 +47,6 @@ func! RenderLatex()
 endfu
 com! T call RenderLatex()
 
-
-" LISP settings
-func! LISP()
-        set tabstop=2
-        set shiftwidth=2
-        set expandtab
-endfu
-autocmd Filetype lisp call LISP()
-
-
 " Python settings
 let python_highlight_all=1
 let g:ale_linters = {'python': ['flake8', 'pylint']}
@@ -68,16 +56,3 @@ func! Python()
 endfu
 autocmd Filetype python com! P call Python()
 autocmd Filetype python com! F call flake8#Flake8()
-
-
-" Vundle plugins
-call vundle#begin()
-Plugin 'VundleVim/Vundle.vim'
-Plugin 'itchyny/lightline.vim'
-"Plugin 'vim-scripts/indentpython.vim'
-Plugin 'sheerun/vim-polyglot'
-Plugin 'junegunn/fzf.vim'
-Plugin 'jupyter-vim/jupyter-vim'
-Plugin 'chakravala/julia-vim'
-"Plugin 'dense-analysis/ale'
-call vundle#end()
