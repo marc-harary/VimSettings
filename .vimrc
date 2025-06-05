@@ -55,4 +55,11 @@ func! Python()
   !python %
 endfu
 autocmd Filetype python com! P call Python()
+function! Black()
+  w
+  silent! !black %
+  silent! edit!
+  redraw!
+endfunction
+autocmd Filetype python com! B call Black()
 autocmd Filetype python com! F call flake8#Flake8()
