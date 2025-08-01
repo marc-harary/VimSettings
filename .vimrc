@@ -63,3 +63,9 @@ function! Black()
 endfunction
 autocmd Filetype python com! B call Black()
 autocmd Filetype python com! F call flake8#Flake8()
+
+fu! Julia()
+  w
+  !julia %
+endfu
+autocmd Filetype julia com! J call Julia()
