@@ -2,6 +2,7 @@ syntax on
 filetype plugin indent on
 
 " Basic settings
+set foldlevelstart=99
 set nocompatible
 set expandtab
 set tabstop=4
