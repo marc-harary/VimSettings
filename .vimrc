@@ -82,40 +82,4 @@ endfunction
 fu! Julia()
   w
   !julia %
-endfuautocmd Filetype text call WordProcessor()
-autocmd Filetype markdown call WordProcessor()
-
-func! RenderLatex()
-  w
-  if substitute(system('uname'), '\n', '', '') == "Darwin"
-    silent !pdflatex % && open $(echo % | sed 's/tex/pdf/g')
-  elseif substitute(system('uname'), '\n', '', '') == "Linux"
-    silent !pdflatex % && xdg-open $(echo % | sed 's/tex/pdf/g')
-  endif
-  redraw!
 endfu
-com! T call RenderLatex()
-
-" Python settings
-let python_highlight_all=1
-let g:ale_linters = {'python': ['flake8', 'pylint']}
-func! Python()
-  w
-  !python %
-endfu
-autocmd Filetype python com! P call Python()
-function! Black()
-  w
-  silent! !black %
-  silent! edit!
-  redraw!
-endfunction
-autocmd Filetype python com! B call Black()
-autocmd Filetype python com! F call flake8#Flake8()
-autocmd Filetype python setlocal foldmethod=indent
-
-fu! Julia()
-  w
-  !julia %
-endfu
-autocmd Filetype julia com! J call Julia()
