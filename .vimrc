@@ -16,10 +16,28 @@ if !has('gui_running')
   set t_Co=256
 endif
 
+" Ensure autocommands don't stack up and duplicate on resourcing
+augroup MyWorkspace
+  autocmd!
+
+  " Word Processor / LateX Environments
+  autocmd Filetype tex,text,markdown call WordProcessor()
+
+  " Python Environments
+  autocmd Filetype python com! P call Python()
+  autocmd Filetype python com! B call Black()
+  autocmd Filetype python com! F call flake8#Flake8()
+  autocmd Filetype python setlocal foldmethod=indent
+
+  " Julia Environments
+  autocmd Filetype julia com! J call Julia()
+augroup END
+
 " Latex/word processors settings
 func! WordProcessor()
-  map j gj
-  map k gk
+  " <buffer> isolates the mapping to this file only; noremap prevents loops
+  nnoremap <buffer> j gj
+  nnoremap <buffer> k gk
   setlocal cc=
   setlocal formatoptions=1
   setlocal noexpandtab
@@ -27,14 +45,44 @@ func! WordProcessor()
   setlocal linebreak
   setlocal spell spelllang=en_us
   set complete+=s
-  " enables indentation when line wraps around
   set breakindent
-  " indent by an additional 4 characters when line >= 40 characters
-  " set breakindentopt=shift:4,min:80,sbr
 endfu
 com! WP call WordProcessor()
-autocmd Filetype tex call WordProcessor()
-autocmd Filetype text call WordProcessor()
+
+func! RenderLatex()
+  w
+  " Clean, bulletproof native Vim path expansion without risky sed string replaces
+  let l:pdf_file = expand('%:p:r') . '.pdf'
+  
+  if substitute(system('uname'), '\n', '', '') == "Darwin"
+    execute 'silent !pdflatex % && open ' . shellescape(l:pdf_file)
+  elseif substitute(system('uname'), '\n', '', '') == "Linux"
+    execute 'silent !pdflatex % && xdg-open ' . shellescape(l:pdf_file)
+  endif
+  redraw!
+endfu
+com! T call RenderLatex()
+
+" Python configurations
+let python_highlight_all=1
+let g:ale_linters = {'python': ['flake8', 'pylint']}
+
+func! Python()
+  w
+  !python %
+endfu
+
+function! Black()
+  w
+  silent! !black %
+  silent! edit!
+  redraw!
+endfunction
+
+fu! Julia()
+  w
+  !julia %
+endfuautocmd Filetype text call WordProcessor()
 autocmd Filetype markdown call WordProcessor()
 
 func! RenderLatex()
