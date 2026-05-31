@@ -63,6 +63,7 @@ function! Black()
 endfunction
 autocmd Filetype python com! B call Black()
 autocmd Filetype python com! F call flake8#Flake8()
+autocmd Filetype python setlocal foldmethod=indent
 
 fu! Julia()
   w
